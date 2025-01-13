@@ -1,6 +1,8 @@
 #include "../include/Chunk.h"
 #include <algorithm> // etc.
 
+static const int FLAT_GROUND_HEIGHT = 50;
+
 Chunk::Chunk(int x, int z)
     : m_chunkX(x)
     , m_chunkZ(z)
@@ -8,13 +10,16 @@ Chunk::Chunk(int x, int z)
 {}
 
 void Chunk::generate() {
-    // Simple example: fill with random type
     for (int y = 0; y < CHUNK_HEIGHT; ++y) {
         for (int z = 0; z < CHUNK_SIZE; ++z) {
             for (int x = 0; x < CHUNK_SIZE; ++x) {
-                // e.g., use noise or a flat plane for demonstration
                 Voxel voxel;
-                voxel.type = (y < 50) ? 1 : 0;
+                if (y < FLAT_GROUND_HEIGHT) {
+                    voxel.type = 1;
+                }
+                else {
+                    voxel.type = 0;
+                }
                 setVoxel(x, y, z, voxel);
             }
         }
