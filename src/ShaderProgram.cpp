@@ -40,13 +40,13 @@ bool ShaderProgram::load(const std::string& vertPath, const std::string& fragPat
     fragFile.close();
 
     // --- 3) Compile vertex shader ---
-    GLuint vertShader = compileShader(vertSource, GL_VERTEX_SHADER);
+    unsigned int vertShader = compileShader(vertSource, GL_VERTEX_SHADER);
     if (vertShader == 0) {
         return false; // Error already logged
     }
 
     // --- 4) Compile fragment shader ---
-    GLuint fragShader = compileShader(fragSource, GL_FRAGMENT_SHADER);
+    unsigned int fragShader = compileShader(fragSource, GL_FRAGMENT_SHADER);
     if (fragShader == 0) {
         glDeleteShader(vertShader);
         return false; // Error already logged
@@ -59,10 +59,10 @@ bool ShaderProgram::load(const std::string& vertPath, const std::string& fragPat
     glLinkProgram(m_programID);
 
     // --- Check linking errors ---
-    GLint success;
+    int success;
     glGetProgramiv(m_programID, GL_LINK_STATUS, &success);
     if (!success) {
-        GLchar infoLog[512];
+        char infoLog[512];
         glGetProgramInfoLog(m_programID, 512, nullptr, infoLog);
         std::cerr << "Error: Program linking failed:\n" << infoLog << std::endl;
         glDeleteShader(vertShader);
@@ -93,7 +93,7 @@ void ShaderProgram::unuse()
 
 void ShaderProgram::setUniform(const std::string& name, const glm::mat4& mat)
 {
-    GLint loc = glGetUniformLocation(m_programID, name.c_str());
+    int loc = glGetUniformLocation(m_programID, name.c_str());
     if (loc != -1) {
         glUniformMatrix4fv(loc, 1, GL_FALSE, &mat[0][0]);
     }
@@ -101,7 +101,7 @@ void ShaderProgram::setUniform(const std::string& name, const glm::mat4& mat)
 
 void ShaderProgram::setUniform(const std::string& name, int value)
 {
-    GLint loc = glGetUniformLocation(m_programID, name.c_str());
+    int loc = glGetUniformLocation(m_programID, name.c_str());
     if (loc != -1) {
         glUniform1i(loc, value);
     }
@@ -109,24 +109,24 @@ void ShaderProgram::setUniform(const std::string& name, int value)
 
 void ShaderProgram::setUniform(const std::string& name, float value)
 {
-    GLint loc = glGetUniformLocation(m_programID, name.c_str());
+    int loc = glGetUniformLocation(m_programID, name.c_str());
     if (loc != -1) {
         glUniform1f(loc, value);
     }
 }
 
-GLuint ShaderProgram::compileShader(const std::string& source, GLenum type)
+unsigned int ShaderProgram::compileShader(const std::string& source, unsigned int type)
 {
-    GLuint shader = glCreateShader(type);
+    unsigned int shader = glCreateShader(type);
     const char* srcPtr = source.c_str();
     glShaderSource(shader, 1, &srcPtr, nullptr);
     glCompileShader(shader);
 
     // Check for compile errors
-    GLint success;
+    int success;
     glGetShaderiv(shader, GL_COMPILE_STATUS, &success);
     if (!success) {
-        GLchar infoLog[512];
+        char infoLog[512];
         glGetShaderInfoLog(shader, 512, nullptr, infoLog);
         std::cerr << "Error: Shader compilation failed:\n" << infoLog << std::endl;
         glDeleteShader(shader);

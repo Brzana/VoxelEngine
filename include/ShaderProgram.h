@@ -16,15 +16,12 @@ public:
     void use();
     void unuse();
 
-    // Set uniforms
     void setUniform(const std::string& name, const glm::mat4& mat);
     void setUniform(const std::string& name, int value);
     void setUniform(const std::string& name, float value);
-    // Overload as needed for vec3, etc.
 
 private:
-    GLuint m_programID;
+    unsigned int m_programID;
 
-    // Helper to compile a shader from GLSL source
-    GLuint compileShader(const std::string& source, GLenum type);
+    unsigned int compileShader(const std::string& source, unsigned int type);
 };

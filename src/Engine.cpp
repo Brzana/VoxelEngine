@@ -14,25 +14,16 @@ Engine::~Engine() {
 }
 
 bool Engine::init() {
-    // 1. Create Window + GL context
     m_window = std::make_unique<Window>();
     if (!m_window->init(1280, 720, "Voxel Engine")) {
         return false;
     }
-
-    // 2. Create camera
     m_camera = std::make_unique<Camera>();
-
-    // 3. Initialize chunk manager
     m_chunkManager = std::make_unique<ChunkManager>();
-
-    // 4. Initialize renderer
     m_renderer = std::make_unique<Renderer>();
     if (!m_renderer->init()) {
         return false;
     }
-
-    // 5. Setup OpenGL states
     glEnable(GL_DEPTH_TEST);
     // glEnable(GL_CULL_FACE); // optional if you want to cull back faces
 
