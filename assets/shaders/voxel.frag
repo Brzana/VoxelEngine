@@ -11,5 +11,5 @@ void main()
     FragColor = texture(uTexture, TexCoord);
     
     // Or if you don’t have a texture, you can just use a color:
-    // FragColor = vec4(1.0, 1.0, 1.0, 1.0);
+    // FragColor = vec4(1.0, 0.0, 0.0, 1.0);
 }
