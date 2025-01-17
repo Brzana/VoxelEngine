@@ -1,6 +1,7 @@
 #pragma once
 
 #include <vector>
+#include "ChunkMesh.h"
 #include "Voxel.h"
 
 static const int CHUNK_SIZE = 16;
@@ -12,6 +13,8 @@ public:
     ~Chunk() = default;
 
     void generate(); // e.g. terrain generation using noise
+    void buildMesh();
+    void render();
     Voxel getVoxel(int x, int y, int z) const;
     void setVoxel(int x, int y, int z, Voxel voxel);
 
@@ -23,4 +26,5 @@ private:
     int m_chunkX;
     int m_chunkZ;
     std::vector<Voxel> m_data; // store chunk data, size = CHUNK_SIZE * CHUNK_HEIGHT * CHUNK_SIZE
+    ChunkMesh m_mesh;
 };
